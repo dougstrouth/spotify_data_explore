@@ -8,7 +8,7 @@ dependencies = [
     "pandas",
     "python-dotenv",
     "duckdb",
-
     "IPython",
-    "ydata-profiling"
+    "ydata-profiling",
+    "setuptools>=75.1.0",
 ]

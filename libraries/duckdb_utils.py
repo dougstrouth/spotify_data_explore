@@ -2,7 +2,7 @@ import logging
 import duckdb
 import glob
 import os
-from general_utilities import setup_logging
+from libraries.general_utilities import setup_logging
 
 setup_logging()
 
@@ -76,7 +76,7 @@ def create_pbp_from_csvs(duckdb_file, schema_name, folder_path):
             DROP TABLE IF EXISTS {schema_name}.{table_name};
 
             CREATE TABLE {schema_name}.{table_name} AS
-            SELECT * FROM read_csv('{pattern}', 
+            SELECT * FROM read_csv('{pattern}',
                                    union_by_name=true,
                                    types={{'time_of_day': 'TIME'}});
             """
@@ -86,7 +86,7 @@ def create_pbp_from_csvs(duckdb_file, schema_name, folder_path):
             DROP TABLE IF EXISTS {schema_name}.{table_name};
 
             CREATE TABLE {schema_name}.{table_name} AS
-            SELECT * FROM read_csv('{pattern}', 
+            SELECT * FROM read_csv('{pattern}',
                                    union_by_name=true,
                                    types={{'jersey_number': 'VARCHAR'}});
             """
@@ -96,7 +96,7 @@ def create_pbp_from_csvs(duckdb_file, schema_name, folder_path):
             DROP TABLE IF EXISTS {schema_name}.{table_name};
 
             CREATE TABLE {schema_name}.{table_name} AS
-            SELECT * FROM read_csv('{pattern}', 
+            SELECT * FROM read_csv('{pattern}',
                                    union_by_name=true);
             """
 
