@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+libraries/duckdb_utils.py
+libraries/general_utilities.py
+spotify_data_explore.egg-info/PKG-INFO
+spotify_data_explore.egg-info/SOURCES.txt
+spotify_data_explore.egg-info/dependency_links.txt
+spotify_data_explore.egg-info/requires.txt
+spotify_data_explore.egg-info/top_level.txt

@@ -1,0 +1,6 @@
+pandas
+python-dotenv
+duckdb
+os
+IPython
+ydataprofiling

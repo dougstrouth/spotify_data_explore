@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: spotify-data-explore
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: python-dotenv
+Requires-Dist: duckdb
+Requires-Dist: os
+Requires-Dist: IPython
+Requires-Dist: ydataprofiling
+
+# spotify_data_explore
+ Exploring the playlist data spotify has published, might throw some AI or simple stats at it idk

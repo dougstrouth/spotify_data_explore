@@ -1,0 +1,14 @@
+[project]
+name = "spotify-data-explore"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "python-dotenv",
+    "duckdb",
+
+    "IPython",
+    "ydata-profiling"
+]
