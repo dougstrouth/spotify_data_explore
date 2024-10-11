@@ -1,49 +1,51 @@
-import libraries.duckdb_utils as ddb
+import libraries.duckdb_utils as ddb_u
+import duckdb as ddb
 import os
 from dotenv import load_dotenv
 
-env =load_dotenv(".env")
+env = load_dotenv(".env")
 
 data_loc = os.getenv("SPOTIFY_DATA_LOC")
 print(data_loc)
 # Create a file path using the data path
-file_name = 'data/*.json'
-full_path = os.path.join(data_loc, file_name)
-print(full_path)
+file_name = 'data/'
+data_path = os.path.join(data_loc, file_name)
+ddb_path = os.path.join(data_loc, "data/test.duckdb")
 
 
-def create_and_append_json_to_duckdb(folder_path):
-  """
-  Iterates through a folder of JSON files, creates a DuckDB table from the first file,
-  and appends data from the remaining files.
+def create_and_append_json_to_duckdb(ddb_path: str, folder_path: str):
+    """
+    Iterates through a folder of JSON files, creates a DuckDB table from the
+    first file, and appends data from the remaining files.
 
-  Args:
-    folder_path: The path to the folder containing the JSON files.
-  """
+    Args:
+        folder_path: The path to the folder containing the JSON files.
+    """
+    file_list = [f for f in os.listdir(folder_path) if f.endswith('.json')]
+    file_list.sort()  # Sort the list alphabetically
+    print(file_list)
 
-  file_list = [f for f in os.listdir(folder_path) if f.endswith('.json')]
-  first_file = os.path.join(folder_path, file_list[0])
+    first_file = os.path.join(folder_path, file_list[0])
+    print("first_file: ",first_file)
+    # Create the table using the first JSON file
+    sql_create = f"""
+        CREATE TABLE main.json_data AS
+        SELECT * FROM read_json_objects('{first_file}', format='auto', maximum_object_size=93554428);
+    """
+    conn = ddb.connect(ddb_path)
+    conn.sql(sql_create)
 
-  # Create the table using the first JSON file
-  sql_create = f"""
-    CREATE TABLE json_data AS
-    SELECT * FROM read_json_objects('{first_file}');
-  """
+    for file in file_list[1:]:
+        # Construct the full file path
+        full_file_path = os.path.join(folder_path, file)
+        sql_append = f"""
+            INSERT INTO main.json_data
+            SELECT * FROM read_json_objects('{full_file_path}', format='auto', maximum_object_size=93554428);
+        """
+        conn.sql(sql_append)
 
-  # Append data from the rest of the JSON files
-  sql_append = """
-    INSERT INTO json_data
-    SELECT * FROM read_json_objects(?);
-  """
+    conn.close()
 
-  # This is where you would execute the SQL statements in DuckDB
-  # For example, using the DuckDB Python API:
-  #   conn = duckdb.connect()
-  #   conn.execute(sql_create)
-  #   for file in file_list[1:]:
-  #     conn.execute(sql_append, [os.path.join(folder_path, file)])
-  #   conn.close()
+    return file_list[1:]
 
-  # I'm returning the SQL statements here since I don't know how you're
-  # connecting to DuckDB
-  return sql_create, sql_append, file_list[1:]
+create_and_append_json_to_duckdb(ddb_path, data_path)
