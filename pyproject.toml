@@ -12,4 +12,5 @@ dependencies = [
     "ydata-profiling",
     "setuptools>=75.1.0",
     "pyarrow>=17.0.0",
+    "ipykernel>=6.29.5",
 ]
