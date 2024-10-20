@@ -1,5 +1,25 @@
 import json
 
+
+def read_json_from_file(file_path):
+  """
+  Reads JSON data from a .json file.
+
+  Args:
+      file_path (str): The path to the .json file.
+
+  Returns:
+      dict: A Python dictionary containing the parsed JSON data.
+           Returns None if there is an error reading or parsing the file.
+  """
+  try:
+    with open(file_path, 'r') as f:
+      data = json.load(f)
+    return data
+  except (FileNotFoundError, json.JSONDecodeError) as e:
+    print(f"Error reading or parsing JSON file: {e}")
+    return None
+
 def parse_json_to_sql(json_data):
     """
     Parses JSON data and generates SQL INSERT statements for DuckDB with error handling.
